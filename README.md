@@ -90,7 +90,7 @@ Then reload bind configuration:
 ### Installation on the dynamic host(s)
 Build the man page as normal user: `make all`
 
-Then install as root: `make install`
+Then install as root: `make install PREFIX=/usr`
 
 It requires `help2man`, `bash`, `curl`, `logger`, `awk`, `grep`, `nsupdate`,
 and `mktemp`.
@@ -101,7 +101,7 @@ on the host:
 # mkdir /etc/dyndns/
 # touch /etc/dyndns/Kdyn.example.com.+xxx+yyyyy.{key,private}
 # chgrp -R nobody /etc/dyndns/
-# chmod o-rwx,g-w /etc/dyndns/
+# chmod -R o-rwx,g-w /etc/dyndns/
 # vim /etc/dyndns/Kdyn.example.com.+xxx+yyyyy.key
 (copy/paste content)
 # vim /etc/dyndns/Kdyn.example.com.+xxx+yyyyy.private
@@ -119,7 +119,7 @@ on the host:
 ```
 
 ### Uninstallation on the dynamic host(s)
-Just run `make uninstall`.
+Just run `make uninstall PREFIX=/usr`.
 
 If you want, remove the crypto key too:
 ```
@@ -129,15 +129,15 @@ If you want, remove the crypto key too:
 ## Usage
 Run manually:
 ```
-# runuser -u nobody /usr/local/bin/dyndns https://example.com/checkip.php /etc/dyndns/Kdyn.example.com.+xxx+yyyyy.key ns1.example.com dyn.example.com myfirsthost.dyn.example.com.
+# runuser -u nobody /usr/bin/dyndns https://example.com/checkip.php /etc/dyndns/Kdyn.example.com.+xxx+yyyyy.key ns1.example.com dyn.example.com myfirsthost.dyn.example.com.
 ```
 
 Use cron to update the host's IP address periodically:
 ```
 # vim /etc/crontab
 ```
-then add the line below to update the feeds every 15 minutes:
+then add the line below to update the DNS entry every 15 minutes:
 ```
-*/15 * * * * nobody  /usr/local/bin/dyndns https://example.com/checkip.php /etc/dyndns/Kdyn.example.com.+xxx+yyyyy.key ns1.example.com dyn.example.com myfirsthost.dyn.example.com.
+*/15 * * * * nobody  /usr/bin/dyndns https://example.com/checkip.php /etc/dyndns/Kdyn.example.com.+xxx+yyyyy.key ns1.example.com dyn.example.com myfirsthost.dyn.example.com.
 ```
 
